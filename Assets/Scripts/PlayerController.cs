@@ -9,7 +9,9 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public float speed = 20;
 
-    AudioSource source;
+    private int score = 0;
+    AudioSource wallSource;
+    AudioSource coinSource;
 
     /// <summary>
     /// Drag for player
@@ -24,16 +26,30 @@ public class PlayerController : MonoBehaviour
         // Get & store a reference to the Rigidody component so that we an access it.
         playerRB = GetComponent<Rigidbody>();
         // Links audiosource variable to audio source component.
-        source = GetComponent<AudioSource>();
+        AudioSource[] allMyAudioSources = GetComponents<AudioSource>();
+        wallSource = allMyAudioSources[0];
+        coinSource = allMyAudioSources[1];
+
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.tag == "Walls")
+        if (collision.gameObject.tag == "Walls")
         {
-            source.Play();
+            wallSource.Play();
         }
     }
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Pickup")
+        {
+            score++;
+            Debug.Log(string.Format("Score: {0}", score));
+            Destroy(other.gameObject);
+            coinSource.Play();
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
