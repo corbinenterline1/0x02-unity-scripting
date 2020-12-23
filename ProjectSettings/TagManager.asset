@@ -7,6 +7,7 @@ TagManager:
   - Walls
   - Pickup
   - Trap
+  - Goal
   layers:
   - Default
   - TransparentFX
