@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
 
     private int score = 0;
 
+    private bool isDead;
+
     /// <summary>
     /// Player health.
     /// </summary>
@@ -63,7 +65,10 @@ public class PlayerController : MonoBehaviour
         {
             health--;
             Debug.Log(string.Format("Health: {0}", health));
-            trapSource.Play();
+            if (health > 0)
+            {
+                trapSource.Play();
+            }
         }
         else if (other.tag == "Goal")
         {
@@ -80,6 +85,11 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isDead)
+        {
+            CharacterController cc = GetComponent<CharacterController>();
+            cc.enabled = false;
+        }
         // Store the current horizontal input in the float moveHorizontal.
         float moveHorizontal = Input.GetAxis ("Horizontal");
 
@@ -96,6 +106,7 @@ public class PlayerController : MonoBehaviour
         if (health <= 0)
         {
             Debug.Log(string.Format("Game Over!"));
+            isDead = true;
             deathSource.Play();
             GameObject objectToDisappear = GameObject.Find("Player");
             objectToDisappear.GetComponent<Renderer>().enabled = false;
