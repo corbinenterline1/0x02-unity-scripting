@@ -90,19 +90,21 @@ public class PlayerController : MonoBehaviour
             CharacterController cc = GetComponent<CharacterController>();
             cc.enabled = false;
         }
-        // Store the current horizontal input in the float moveHorizontal.
-        float moveHorizontal = Input.GetAxis ("Horizontal");
+        if (!isDead)
+        {
+            // Store the current horizontal input in the float moveHorizontal.
+            float moveHorizontal = Input.GetAxis ("Horizontal");
 
-        // Store the current vertical input in the float moveVertical.
-        float moveVertical = Input.GetAxis ("Vertical");
+            // Store the current vertical input in the float moveVertical.
+            float moveVertical = Input.GetAxis ("Vertical");
 
-        // Use the two store floats to create a new Vector 3variable movement.
-        Vector3 movement = new Vector3(moveHorizontal, 0, moveVertical);
-        playerRB.velocity *= dragFactor;
+            // Use the two store floats to create a new Vector 3variable movement.
+            Vector3 movement = new Vector3(moveHorizontal, 0, moveVertical);
+            playerRB.velocity *= dragFactor;
 
-        // Call the AddForce function of our Rigidbody playerRB supplying movement multiplied by speed to move our player.
-        playerRB.AddForce (movement * speed);
-
+            // Call the AddForce function of our Rigidbody playerRB supplying movement multiplied by speed to move our player.
+            playerRB.AddForce (movement * speed);
+        }
         if (health <= 0)
         {
             Debug.Log(string.Format("Game Over!"));
